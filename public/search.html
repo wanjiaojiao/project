@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改学生信息</title>
+    <link href="./css/search.css" rel="stylesheet" type="text/css" />
+    <link href="./css/comm.css" rel="stylesheet" type="text/css" />
+    <script>
+        function searchUser(){
+            //获取地址栏中的uid
+//			var url=location.href;
+//			console.log(url);
+//      字符串截取操作
+            //使用bom的方式获取地址栏中查询字符串的值
+            var urlParams=new URLSearchParams(location.search);
+            var id=urlParams.get("id");
+
+            //1.获取xhr异步对象
+            var xhr=new XMLHttpRequest();
+            //4.接收响应，创建监听
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                    var result=xhr.responseText;
+                    var arr=JSON.parse(result);
+                    console.log(arr);
+                    ename.value=arr.ename;
+                    age.value=arr.age;
+                   /* sex.value=arr.sex;*/
+                    professional.value=arr.professional;
+                    if(arr.sex==1){
+                        man.checked=true;
+                    }else if(arr.sex==0){
+                        woman.checked=true;
+                    }else{
+                        unk.checked=true;
+                    }
+                }
+            }
+            //2.创建请求，打开连接
+            xhr.open("get","/stu/searchuser/"+id,true);
+            //3.发送请求
+            xhr.send();
+        }
+        function update(){
+            var urlParams=new URLSearchParams(location.search);
+            var $id=urlParams.get("id");
+            var $ename=ename.value;
+            var $age=age.value;
+           /* var $sex=sex.value;*/
+            var $professional=professional.value;
+            var $gender=-1;
+            if(man.checked){
+                $gender=1;
+            }else if(woman.checked){
+                $gender=0;
+            }else{
+                $gender=-1;
+            }
+            //1.获取xhr异步对象
+            var xhr=new XMLHttpRequest();
+            //4.接收响应
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                    var result=xhr.responseText;
+                    if(result==1){
+                        alert("修改成功");
+                        location.href="list.html";
+                    }else{
+                        alert("修改失败");
+                    }
+                }
+            }
+            //2.创建请求
+            xhr.open("put","/stu/update",true);
+            //3.发送请求
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            var formdata=`id=${$id}&ename=${$ename}&age=${$age}&professional=${$professional}&sex=${$gender}`;
+            xhr.send(formdata);
+        }
+    </script>
+</head>
+<body onload="searchUser()">
+    <div id="input">
+        <div id="msg">
+            <div id="three">
+                <input type="text" id="ename"><br>
+                <input type="text" id="age"><br>
+                <!--<input type="text" id="sex"><br>-->
+                <input type="text" id="professional"><br>
+            </div>
+            <div id="last">
+                    <input id="man" value="1" type="radio" name="gender">
+                    <label for="man">男</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="woman" value="0" type="radio" name="gender">
+                    <label for="woman">女</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="unk" value="-1" type="radio" name="gender">
+                    <label for="unk">保密</label>
+                <br>
+            </div>
+            <button onclick="update()">修改</button>
+        </div>
+    </div>
+</body>
+</html>

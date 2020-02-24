@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录-学生管理系统</title>
+	<link href="./css/login.css" rel="stylesheet" type="text/css" />
+	<link href="./css/comm.css" rel="stylesheet" type="text/css" />
+    <script>
+		var is_uname=false;
+		var is_upwd=false;
+		function show_uname(){
+			uname_msg.innerHTML="用户名不能为空";
+		}
+		function show_upwd(){
+			upwd_msg.innerHTML="密码不能为空";
+		}
+		function check_uname(){
+			if(!uname.value){
+				uname_msg.innerHTML="no";
+				is_uname=false;
+			}else{
+				uname_msg.innerHTML="yes";
+				is_uname=true;
+			}
+		}
+		function check_upwd(){
+			if(!upwd.value){
+				upwd_msg.innerHTML="no";
+				is_upwd=false;
+			}else{
+				upwd_msg.innerHTML="yes";
+				is_upwd=true;
+			}
+		}
+		function login(){
+			if(!is_uname){alert("用户名不能为空");return;}
+			if(!is_upwd){alert("密码不能为空");return;}
+			//1.创建xhr异步对象
+			var xhr=new XMLHttpRequest();
+			//4.创建监听，接收响应
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					var result=xhr.responseText;
+					if(result==1){
+						alert("登录成功");
+						//使用bom操作跳转页面
+						location.href="list.html";
+					}else{
+						alert("用户名或者密码错误");
+					}
+				}
+			}
+			//2.创建请求，打开连接
+			xhr.open("get","/stu/login/"+uname.value+"&"+upwd.value,true);
+			//3.发送请求
+			xhr.send();
+		}
+	</script>
+
+</head>
+<body>
+    <div class="header"><table></table>
+        <div class="header_area" style="font-size:40px">学生信息管理系统</div>
+    </div>
+    <img src="./image/login.png" alt="">
+    <div class="login">
+        <div class="change">
+            <div><a href="reg.html">注册</a></div>
+            <div><a href="">登录</a></div>
+        </div>
+        <div class="login_title">学生信息管理平台</div>
+        <div class="input">
+             <input onblur="check_uname()" onfocus="show_uname()" id="uname" type="text" placeholder="请输入用户名" >
+             <span id="uname_msg"></span><br>
+             <input onblur="check_upwd()" onfocus="show_upwd()" type="text" id="upwd" type="text" placeholder="请输入密码">
+             <span id="upwd_msg"></span><br>
+             <button onclick="login()">登录</button>
+        </div>
+    </div>
+</body>
+</html>

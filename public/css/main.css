@@ -1,0 +1,106 @@
+
+.head{
+background-color:#32A58F;
+    color: #ffffff;
+    height:100px;
+    line-height:100px;
+    font-size:20px;
+}
+.head p{
+    margin-left:50px;
+}
+
+
+.ul,.control{
+    float:left;
+}
+
+ul{
+    list-style: none;
+    background-color:#242830;
+    font-size:15px;
+    height:500px;
+}
+ul li{
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+}
+ul li:hover{
+    background-color: #24281A;
+}
+ul li a{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+}
+.control{
+    height: 500px;
+
+}
+.stu{
+    height:60px;
+    background-color:#2A3F54;
+    font-size: 18px;
+    line-height: 60px;
+}
+.stu p{
+    margin-left: 50px;
+
+}
+#form{
+    height:440px;
+}
+table{
+    border: 1px solid #000;
+    width:800px;height:400px;
+    margin: 0 auto;
+    text-align:center;
+    font-size:15px
+}
+/*table tr td ,table tr th
+{border-top:solid 1px #ccc;
+ border-left:solid 1px #ccc;
+line-height: 40px;
+text-align: center;
+width:10px;height: 30px;
+}
+table tr td:last-child, table tr th:last-child
+{border-right:solid 1px #ccc;
+}
+table tr:last-child td{
+ border-bottom:solid 1px #ccc;
+}*/
+
+table tr a{
+    text-decoration: none;
+    color: #32a5e1;
+}
+
+@media screen and (min-width: 992px) {
+    .ul{
+        width:20%
+    }
+    .control{
+        width:80%
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .ul{
+        width:100%
+    }
+    .control{
+        width:100%
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .ul{
+        width:100%
+    }
+    .control{
+        width:100%
+    }
+}

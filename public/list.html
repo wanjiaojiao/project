@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息</title>
+    <script>
+        function userlist(){
+            //1.获取xhr异步对象
+            var  xhr=new XMLHttpRequest();
+            //4.获取响应，创建监听
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                    var result=xhr.responseText;
+                    var arr=JSON.parse(result);
+                    //结构字符串---1
+                    var strHTML=`
+						<table border="1" >
+						  <tr>
+								<th>学生姓名</th>
+								<th>年龄</th>
+								<th>性别</th>
+								<th>专业</th>
+								<th>操作</th>
+							</tr>
+					`;
+                    //结构字符串---2
+                    for(var i=0;i<arr.length;i++){
+                        var gender="保密";
+                        if(arr[i].sex==1){
+                            gender="男";
+                        }else if(arr[i].sex==0){
+                            gender="女";
+                        }else{
+                            gender="保密";
+                        }
+                        strHTML+=`
+							<tr>
+								<td>${arr[i].ename}</td>
+								<td>${arr[i].age}</td>
+								<td>${gender}</td>
+								<td>${arr[i].professional}</td>
+								<td>
+									<a href="search.html?id=${arr[i].id}">修改</a>
+									<a href="javascript:del(${arr[i].id})">删除</a>
+								</td>
+							</tr>
+						`;
+                    }
+                    //结构字符串---3
+                    strHTML+=`</table>`;
+                    form.innerHTML=strHTML;
+                }
+            }
+            //2.创建请求，打开连接
+            xhr.open("get","/stu/list",true);
+            //3.发送请求
+            xhr.send();
+        }
+        function del(id){
+            //1.创建xhr异步对象
+            var xhr=new XMLHttpRequest();
+            //4.创建监听，接收响应
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                    var result=xhr.responseText;
+                    if(result==1){
+                        alert("删除成功");
+                        userlist();
+                    }else{
+                        alert("删除失败");
+                    }
+                }
+            }
+            //2.创建请求，打开连接
+            xhr.open("delete","/stu/deluser/"+id,true);
+            //3.发送请求
+            xhr.send();
+        }
+    </script>
+    <link href="./css/main.css" rel="stylesheet" type="text/css" />
+    <link href="./css/comm.css" rel="stylesheet" type="text/css" />
+</head>
+<body onload="userlist()">
+    <div id="content">
+        <div class="head"><p>学生信息中心</p>
+        </div>
+        <div class="ul">
+            <ul>
+                <li><a href="">导航</a></li>
+                <li><a href="">学生信息</a></li>
+                <li><a href="">一年级</a></li>
+                <li><a href="">二年级</a></li>
+                <li><a href="">三年级</a></li>
+            </ul>
+        </div>
+        <div class="control">
+            <div class="stu"><p>学生管理</p></div>
+          <!--  <div class="input">
+                <a href="">新增</a>
+                姓名：<input type="text" name="s_name" value="" class="text"> &nbsp;&nbsp;
+                年龄：<input type="text" name="s_age" value=""  class="text"> &nbsp;&nbsp;
+                职业：<input type="text" name="" value="" class="text"> &nbsp;&nbsp;
+                <input type="submit" value="查询">
+            </div>-->
+            <div id="form" style="background-color: #24281A">表格</div>
+        </div>
+    </div>
+</body >
+</html>
